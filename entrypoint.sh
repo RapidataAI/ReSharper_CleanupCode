@@ -131,7 +131,7 @@ echo ""
 
 dotnet tool restore
 dotnet tool update --global JetBrains.ReSharper.GlobalTools
-jb cleanupcode "${COMMAND_ARG_ARRAY[@]}" "${FILE_INPUT}"
+jb cleanupcode "${COMMAND_ARG_ARRAY[@]}" $FILE_INPUT
 
 REFORMATTED_FILES=$(git diff --name-only)
 
