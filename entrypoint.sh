@@ -152,6 +152,16 @@ if [ "${INPUT_FAIL_ON_REFORMAT_NEEDED}" = "yes" ]; then
   echo "${REFORMATTED_FILES}"
   echo "--- --- ---"
   echo ""
+
+  GIT_CHANGES=$(git diff)
+  echo ""
+  echo "--- --- ---"
+  echo "Detailed View"
+  echo "The following changes need to happen:"
+  echo "${GIT_CHANGES}"
+  echo "--- --- ---"
+  echo ""
+
   exit ${EXIT_WITH_FAST_FAIL}
 fi
 
