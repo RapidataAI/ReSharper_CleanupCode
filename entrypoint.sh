@@ -80,6 +80,11 @@ else
 fi
 
 
+echo ""
+echo "--- --- ---"
+echo "file(s) to be re-formatted: [${FILE_INPUT}]"
+echo "--- --- ---"
+echo ""
 
 #
 # Parse arguments and put them into an array to call command
