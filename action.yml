@@ -43,5 +43,5 @@ runs:
   using: composite
   steps:
     - name: Run Script
-      run: ${GITHUB_ACTION_PATH}/entrypoint.sh "${{ inputs.solution }}" "${{ inputs.fail_on_reformat_needed }}" "${{ inputs.auto_commit }}" "${{ inputs.jb_cleanup_code_arg }}" "${{ inputs.commit_message }}" "${{ inputs.commit_creator_email }}" "${{ inputs.commit_creator_name }}"
+      run: ${GITHUB_ACTION_PATH}/entrypoint.sh "${{ inputs.solution }}" "${{ inputs.fail_on_reformat_needed }}" "${{ inputs.auto_commit }}" "${{ inputs.jb_cleanup_code_arg }}" "${{ inputs.commit_message }}" "${{ inputs.commit_creator_email }}" "${{ inputs.commit_creator_name }} ${{ inputs.only_changed_files }}"
       shell: bash
