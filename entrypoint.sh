@@ -148,6 +148,8 @@ if [ "${INPUT_FAIL_ON_REFORMAT_NEEDED}" = "yes" ]; then
   echo ""
   echo "--- --- ---"
   echo "Exit with re-formatted code needed fail status"
+  echo "The following files need to be re-formatted:"
+  echo "${REFORMATTED_FILES}"
   echo "--- --- ---"
   echo ""
   exit ${EXIT_WITH_FAST_FAIL}
