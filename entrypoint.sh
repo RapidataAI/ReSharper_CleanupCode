@@ -73,10 +73,23 @@ if [ "${INPUT_ONLY_REFORMAT_CHANGED_FILES}" != "yes" ] && [ "${INPUT_ONLY_REFORM
 fi
 
 if [ "${INPUT_ONLY_REFORMAT_CHANGED_FILES}" == "yes" ]; then
+  echo ""
+  echo "--- --- ---"
+  echo "Checking difference in files between current commit and main branch"
+  echo "--- --- ---"
+  echo ""
+
   git fetch origin main:refs/remotes/origin/main
-  $FILE_INPUT=$(git diff --name-only origin/main 3df8c270b9747e78dd90ea7db64355877129f148)
+  GIT_HASH=`git rev-parse HEAD`
+  FILE_INPUT=$(git diff --name-only origin/main ${GIT_HASH})
 else
-  $FILE_INPUT=${INPUT_SOLUTION}
+  echo ""
+  echo "--- --- ---"
+  echo "Checking difference in the whole solution"
+  echo "--- --- ---"
+  echo ""
+
+  FILE_INPUT=${INPUT_SOLUTION}
 fi
 
 
