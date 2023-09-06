@@ -12,6 +12,7 @@ INPUT_JB_CLEANUP_CODE_ARG=$4
 INPUT_COMMIT_MESSAGE=$5
 INPUT_COMMIT_CREATOR_EMAIL=$6
 INPUT_COMMIT_CREATOR_NAME=$7
+INPUT_ONLY_REFORMAT_CHANGED_FILES=$8
 
 echo ""
 echo "--- --- ---"
@@ -24,6 +25,7 @@ echo "- ReSharper CLI CleanupCode arguments: [${INPUT_JB_CLEANUP_CODE_ARG}]"
 echo "- Commit message: [${INPUT_COMMIT_MESSAGE}]"
 echo "- Commit creator (git user) e-mail: [${INPUT_COMMIT_CREATOR_EMAIL}]"
 echo "- Commit creator (git user) name: [${INPUT_COMMIT_CREATOR_NAME}]"
+echo "- Only reformat changed files: [${INPUT_ONLY_REFORMAT_CHANGED_FILES}]"
 if [ "${INPUT_FAIL_ON_REFORMAT_NEEDED}" = "yes" ] && [ "${INPUT_AUTO_COMMIT}" = "yes" ]; then
   echo "NOTICE: you have set that the execution will fast fail on re-format needed"
   echo "NOTICE: auto commit will not be executed because the execution will terminate with fail when re-format is needed"
@@ -59,6 +61,26 @@ if [ "${INPUT_AUTO_COMMIT}" != "yes" ] && [ "${INPUT_AUTO_COMMIT}" != "no" ]; th
   exit ${INVALID_ARGUMENT_ERROR}
 fi
 
+
+if [ "${INPUT_ONLY_REFORMAT_CHANGED_FILES}" != "yes" ] && [ "${INPUT_ONLY_REFORMAT_CHANGED_FILES}" != "no" ]; then
+  echo ""
+  echo "--- --- ---"
+  echo "INVALID ARGUMENT OF '-a' equals '${INPUT_ONLY_REFORMAT_CHANGED_FILES}'"
+  echo "Set 'yes' or 'no' or omit to use default equals 'no'"
+  echo "--- --- ---"
+  echo ""
+  exit ${INVALID_ARGUMENT_ERROR}
+fi
+
+if [ "${INPUT_ONLY_REFORMAT_CHANGED_FILES}" == "yes" ]; then
+  git fetch origin main:refs/remotes/origin/main
+  $FILE_INPUT=$(git diff --name-only origin/main 3df8c270b9747e78dd90ea7db64355877129f148)
+else
+  $FILE_INPUT=${INPUT_SOLUTION}
+fi
+
+
+
 #
 # Parse arguments and put them into an array to call command
 # I'm at a loss for words to describe how I managed to nail this function
@@ -90,7 +112,7 @@ echo ""
 
 dotnet tool restore
 dotnet tool update --global JetBrains.ReSharper.GlobalTools
-jb cleanupcode "${COMMAND_ARG_ARRAY[@]}" "${INPUT_SOLUTION}"
+jb cleanupcode "${COMMAND_ARG_ARRAY[@]}" "${FILE_INPUT}"
 
 REFORMATTED_FILES=$(git diff --name-only)
 

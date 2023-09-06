@@ -9,7 +9,7 @@ branding:
 inputs:
   solution:
     description: 'Solution or project file to be cleaned up'
-    required: true
+    required: false
   fail_on_reformat_needed:
     description: 'Determines whether the action should fail if the code needs to be reformatted'
     required: false
@@ -34,6 +34,10 @@ inputs:
     description: 'The name to use for the git user who creates the commit if auto_commit is set to yes'
     required: false
     default: "CleanupCode Action"
+  only_changed_files:
+    description: 'Only run the cleanup on the files that were changed by the user'
+    required: false
+    default: 'no'
 
 runs:
   using: composite
